@@ -3,9 +3,9 @@ spring:
     name: urlshortener
 
   datasource:
-    url: ${POSTGRES_URL}
-    username: ${POSTGRES_USERNAME}
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://postgres-db:5432/mydb
+    username: postgres
+    password: secret
     driver-class-name: org.postgresql.Driver
 
   jpa:

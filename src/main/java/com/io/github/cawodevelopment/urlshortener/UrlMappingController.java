@@ -1,10 +1,9 @@
 package com.io.github.cawodevelopment.urlshortener;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
-@Controller
+@RestController
 public class UrlMappingController {
 
     private final UrlMappingService urlMappingService;
@@ -14,10 +13,17 @@ public class UrlMappingController {
     }
 
     @GetMapping("/{shortUrl}")
-    public String redirectToUrl(@PathVariable String shortUrl) {
+    public RedirectView redirectToUrl(@PathVariable String shortUrl) {
         UrlMapping urlMapping = urlMappingService.getUrlMappingByShortUrl(shortUrl);
 
-        return "redirect:" + urlMapping.getLongUrl();
+        return new RedirectView(urlMapping.getLongUrl());
+    }
+
+    @PostMapping
+    public UrlMapping createUrlMapping(
+            @RequestBody CreateUrlMappingRequest request) {
+
+        return urlMappingService.createUrlMapping(request.longUrl());
     }
 
 }
